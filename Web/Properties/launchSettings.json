@@ -9,12 +9,13 @@
   },
   "profiles": {
     "Local": {
-      "commandName": "IISExpress",
+      "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Local"
       },
-      "applicationUrl": "http://localhost:51000/"
+      "applicationUrl": "http://localhost:61111/"
     },
     "Dev": {
       "commandName": "Project",
@@ -31,7 +32,7 @@
         "ASPNETCORE_ENVIRONMENT": "Production"
       },
       "nativeDebugging": false,
-      "applicationUrl": "http://localhost:61111/"
+      "applicationUrl": "http://localhost:51000/"
     },
     "Azure Dev Spaces": {
       "commandName": "AzureDevSpaces",

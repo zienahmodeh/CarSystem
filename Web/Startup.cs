@@ -1,4 +1,4 @@
-using Domain.Interfaces;
+﻿using Domain.Interfaces;
 using Domain.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -57,24 +57,14 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        if (env.IsDevelopment() || env.IsEnvironment("Local"))
-        {
-            app.UseDeveloperExceptionPage();
-        }
-
-        // ????? Swagger ?????? ?????? ?????
         app.UseSwagger();
         app.UseSwaggerUI(c =>
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarSystem API v1");
+            c.RoutePrefix = string.Empty;
         });
 
         app.UseStaticFiles();
-        if (!env.IsDevelopment())
-        {
-            app.UseSpaStaticFiles();
-        }
-
         app.UseRouting();
         app.UseCors("CorsPolicy-public");
 
@@ -83,14 +73,11 @@ public class Startup
             endpoints.MapControllers();
         });
 
-        // ??????? ?? ????? ??? Angular
         app.UseSpa(spa =>
         {
             spa.Options.SourcePath = "Client";
-
             if (env.IsDevelopment() || env.IsEnvironment("Local"))
             {
-                // ????? Angular dev server ???????? ??? ????? ??? API
                 spa.UseAngularCliServer(npmScript: "start");
             }
         });

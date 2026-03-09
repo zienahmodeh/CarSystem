@@ -31,7 +31,7 @@ public class CarService(IHttpClientFactory httpClientFactory) : ICarService
         return response;
     }
 
-    public async Task<ServiceOperationResult<List<ModelDTO>>> GetModelsByMakeId(int makeId)
+    public async Task<ServiceOperationResult<List<ModelDTO>>> GetVehicleTypesByMakeId(int makeId)
     {
         var response = new ServiceOperationResult<List<ModelDTO>>();
         try
