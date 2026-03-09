@@ -1,3 +1,5 @@
+using Domain.Interfaces;
+using Domain.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -5,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace Web;
 
@@ -33,9 +36,10 @@ public class Startup
             });
         });
 
-        services.AddHttpClient("Client", client =>
+        services.AddHttpClient("NhtsaClient", client =>
         {
-            client.BaseAddress = new System.Uri("https://vpic.nhtsa.dot.gov/api/vehicles/");
+            client.BaseAddress = new Uri("https://vpic.nhtsa.dot.gov/api/vehicles/");
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
         });
 
         services.AddSwaggerGen(c =>
@@ -48,7 +52,7 @@ public class Startup
             configuration.RootPath = "Client/dist"; 
         });
 
-        // services.AddScoped<ICarService, CarService>(); 
+        services.AddScoped<ICarService, CarService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

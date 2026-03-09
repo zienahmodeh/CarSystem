@@ -31,10 +31,10 @@ namespace SharedKernel
 
     public enum Errors
     {
-        [Description("Item not found")]
-        ItemNotFound = 0,
+        [Description("General Error")]
+        GeneralError = 0,
         [Description("Validation Failed")]
-        ValidationFailed = 2,
+        ValidationFailed = 1,
         [Description("{0}")]
         InternalServreError = 2
     }
