@@ -1,0 +1,25 @@
+<ul class="list-unstyled">
+  <li class="dropdown pc-h-item header-user-profile" ngbDropdown>
+    <a href="javascript:void(0);"
+      class="pc-head-link dropdown-toggle d-flex align-items-center gap-2 text-dark fw-semibold" ngbDropdownToggle>
+      <i antIcon theme="outline" type="user" class="f-20"></i>
+      <span>{{ currentUsername }}</span>
+    </a>
+
+    <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown" ngbDropdownMenu>
+      <div class="dropdown-header">
+        <div class="d-flex mb-1">
+          <!-- <div class="flex-shrink-0">
+            <img src="assets/images/user/avatar-2.jpg" alt="user-image" class="user-avatar wid-35" />
+          </div> -->
+          <div class="flex-grow-1 ms-3 text-start">
+            <h6 class="mb-0">{{ currentUserEmail }}</h6>
+            <span>{{ currentUserRole }}</span>
+          </div>
+          <a a href="javascript:void(0)" (click)="logout()" class="bg-transparent"><i class="d-flex f-20" antIcon
+              theme="outline" type="logout"></i></a>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>

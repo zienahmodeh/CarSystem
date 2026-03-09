@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-md-12 col-xl-6 mb-4">
+    <apx-chart
+      [series]="monthlyBarOptions.series"
+      [chart]="monthlyBarOptions.chart"
+      [xaxis]="monthlyBarOptions.xaxis"
+      [title]="monthlyBarOptions.title"
+      [dataLabels]="monthlyBarOptions.dataLabels"
+      [stroke]="monthlyBarOptions.stroke"
+      [fill]="monthlyBarOptions.fill"
+      [plotOptions]="monthlyBarOptions.plotOptions"
+    ></apx-chart>
+  </div>
+
+  <div class="col-md-12 col-xl-6 mb-4">
+    <apx-chart
+      [series]="incomeOverviewOptions.series"
+      [chart]="incomeOverviewOptions.chart"
+      [xaxis]="incomeOverviewOptions.xaxis"
+      [title]="incomeOverviewOptions.title"
+      [dataLabels]="incomeOverviewOptions.dataLabels"
+      [stroke]="incomeOverviewOptions.stroke"
+      [fill]="incomeOverviewOptions.fill"
+      [plotOptions]="incomeOverviewOptions.plotOptions"
+    ></apx-chart>
+  </div>
+
+  <div class="col-md-12 col-xl-12 mb-4">
+    <apx-chart
+      [series]="analyticsChartOptions.series"
+      [chart]="analyticsChartOptions.chart"
+      [xaxis]="analyticsChartOptions.xaxis"
+      [title]="analyticsChartOptions.title"
+      [dataLabels]="analyticsChartOptions.dataLabels"
+      [stroke]="analyticsChartOptions.stroke"
+      [fill]="analyticsChartOptions.fill"
+      [plotOptions]="analyticsChartOptions.plotOptions"
+    ></apx-chart>
+  </div>
+</div>

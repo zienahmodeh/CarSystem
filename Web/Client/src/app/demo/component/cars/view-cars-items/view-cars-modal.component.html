@@ -1,0 +1,50 @@
+<div class="modal-header">
+  <h5 class="modal-title">Items</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  <div class="card-body p-0">
+     <!-- Table -->
+      <div class="table-responsive dt-responsive">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th>ITEM NAME</th>
+              <th>SKU CODE</th>
+              <th>QUANTITY</th>
+              <th>COST PRICE</th>
+              <th>MSRP PRICE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="this.itemService.warehouseItems.length === 0">
+              <td colspan="5" class="text-center text-muted p-4">No data available.</td>
+            </tr>
+            <tr *ngFor="let item of this.itemService.warehouseItems; trackBy: trackByItemId">
+              <td>{{ item.itemName }}</td>
+              <td>{{ item.skuCode }}</td>
+              <td>{{ item.qty }}</td>
+              <td>{{ item.costPrice | currency }}</td>
+              <td>{{ item.msrpPrice | currency }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination & Page Size -->
+      <div class="d-flex justify-content-between align-items-center p-3" style="border: 1px solid #ddd;">
+        <select class="form-select" title="select item per page" style="width: auto;" name="pageSize"
+          [(ngModel)]="this.itemService.warehouseItemFilter.pageSize" (ngModelChange)="pageSizeChange($event)">
+          <option [ngValue]="5">5 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="15">15 items per page</option>
+        </select>
+
+        <ngb-pagination [collectionSize]="this.itemService.totalwarehouseItems" [(page)]="this.itemService.warehouseItemFilter.pageIndex" [pageSize]="this.itemService.warehouseItemFilter.pageSize"
+          [maxSize]="5" [ellipses]="false" [boundaryLinks]="true" (pageChange)="pageChange($event)" role="navigation">
+        </ngb-pagination>
+      </div>
+  </div>
+
+</div>

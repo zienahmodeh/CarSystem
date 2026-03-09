@@ -1,0 +1,42 @@
+<div class="auth-main">
+  <div class="auth-wrapper v3">
+    <div class="auth-form">
+      <div class="auth-header">
+        <a><img src="assets/images/logo-icon.svg" alt="logo" /> <span class="ms-2">Happy Inventory</span></a>
+      </div>
+      <div class="card my-5">
+      <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+        
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+              <h3 class="mb-0"><b>Login</b></h3>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label" for="email">Email Address</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Email Address"
+                [(ngModel)]="model.email" required email />
+              <div *ngIf="loginForm.submitted && loginForm.controls['email']?.invalid" class="text-danger">
+                Valid email is required
+              </div>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label" for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                [(ngModel)]="model.password" required minlength="6" />
+              <div *ngIf="loginForm.submitted && loginForm.controls['password']?.invalid" class="text-danger">
+                Password is required (min 6 chars)
+              </div>
+            </div>
+
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+          </div>
+      </form>
+        </div>
+
+    </div>
+  </div>
+</div>
