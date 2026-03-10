@@ -20,58 +20,48 @@
 
           <div class="col-xl-4 col-md-6">
             <div class="form-group">
-              <label for="makeId" class="form-label fw-bold text-secondary mb-2">
+              <label class="form-label fw-bold text-secondary mb-2">
                 <i antIcon type="info-circle" theme="outline" class="me-1"></i> Vehicle Make
               </label>
-              <div class="select-wrapper">
-                <select id="makeId" name="makeId" class="form-select custom-select-styled" 
-                        [(ngModel)]="filter.makeId" (change)="onMakeChange()">
-                  <option [ngValue]="0" disabled>-- Choose a manufacturer --</option>
-                  <option *ngFor="let m of makes" [ngValue]="m.make_ID">
-                    {{ m.make_Name }}
-                  </option>
-                </select>
-                <div class="select-arrow">
-                  <i antIcon type="down" theme="outline"></i>
-                </div>
-              </div>
+              <ng-select 
+                [items]="makes"
+                bindLabel="make_Name"
+                bindValue="make_ID"
+                [(ngModel)]="filter.makeId"
+                (change)="onMakeChange()"
+                [loading]="isMakesLoading"
+                placeholder="Search or select make"
+                class="custom-ng-select">
+              </ng-select>
             </div>
           </div>
 
           <div class="col-xl-4 col-md-6">
             <div class="form-group">
-              <label for="modelId" class="form-label fw-bold text-secondary mb-2">Model</label>
-              <div class="select-wrapper">
-                <select id="modelId" name="modelId" class="form-select custom-select-styled"
-                        [(ngModel)]="filter.modelId" [disabled]="types.length === 0">
-                  <option [ngValue]="0">-- All Models (Optional) --</option>
-                  <option *ngFor="let t of types" [ngValue]="t.model_ID">
-                    {{ t.model_Name }}
-                  </option>
-                </select>
-
-                <div class="select-arrow" *ngIf="types.length > 0">
-                  <i antIcon type="down" theme="outline"></i>
-                </div>
-
-                <div class="spinner-container" *ngIf="isLoading && filter.makeId > 0">
-                  <div class="spinner-border spinner-border-sm text-primary"></div>
-                </div>
-              </div>
+              <label class="form-label fw-bold text-secondary mb-2">Model</label>
+              <ng-select 
+                [items]="types"
+                bindLabel="model_Name"
+                bindValue="model_ID"
+                [(ngModel)]="filter.modelId"
+                [disabled]="types.length === 0"
+                [loading]="isModelsLoading"
+                placeholder="Search or select model"
+                class="custom-ng-select">
+              </ng-select>
             </div>
           </div>
 
           <div class="col-xl-4 col-md-6">
             <div class="form-group">
-              <label for="year" class="form-label fw-bold text-secondary mb-2">Model Year</label>
-              <div class="select-wrapper">
-                <select id="year" name="year" class="form-select custom-select-styled" [(ngModel)]="filter.year">
-                  <option *ngFor="let y of years" [ngValue]="y">{{ y }}</option>
-                </select>
-                <div class="select-arrow">
-                  <i antIcon type="down" theme="outline"></i>
-                </div>
-              </div>
+              <label class="form-label fw-bold text-secondary mb-2">Model Year</label>
+              <ng-select 
+                [items]="years"
+                [(ngModel)]="filter.year"
+                [clearable]="false"
+                placeholder="Select year"
+                class="custom-ng-select">
+              </ng-select>
             </div>
           </div>
         </div>
@@ -80,10 +70,12 @@
           <button type="button" class="btn btn-light border px-4 rounded-pill" (click)="resetFilters()">
             <i class="me-1" antIcon type="reload" theme="outline"></i> Reset
           </button>
+          
           <button type="button" class="btn btn-primary px-4 rounded-pill shadow-sm" (click)="search()"
-                  [disabled]="!filter.makeId || isLoading">
-            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-            <i class="me-1" antIcon type="search" theme="outline" *ngIf="!isLoading"></i> Search Models
+                  [disabled]="!filter.makeId || isSearching">
+            <span *ngIf="isSearching" class="spinner-border spinner-border-sm me-2"></span>
+            <i class="me-1" antIcon type="search" theme="outline" *ngIf="!isSearching"></i> 
+            Search Models
           </button>
         </div>
       </div>
@@ -104,15 +96,17 @@
             <tbody>
               <tr *ngIf="models.length === 0">
                 <td colspan="4" class="text-center py-5">
-                  <div *ngIf="!isLoading" class="empty-state">
+                  <div *ngIf="!isSearching" class="empty-state">
                     <i class="f-40 text-muted mb-3 d-block" antIcon type="inbox" theme="outline"></i>
                     <p class="text-muted m-0">No data found. Select a make and click search.</p>
                   </div>
-                  <div *ngIf="isLoading" class="py-3">
+                  <div *ngIf="isSearching" class="py-3">
                     <div class="spinner-grow text-primary" role="status"></div>
+                    <p class="text-primary mt-2">Fetching results...</p>
                   </div>
                 </td>
               </tr>
+
               <tr *ngFor="let model of models" class="fade-in">
                 <td class="ps-4">
                   <span class="badge rounded-pill bg-light-primary text-primary px-3 py-2 fw-600">
@@ -122,7 +116,7 @@
                 <td><code class="text-muted">{{ model.model_ID }}</code></td>
                 <td class="fw-bold text-dark">{{ model.model_Name }}</td>
                 <td class="text-center pe-4">
-                  <button class="btn btn-icon btn-light-primary rounded-circle shadow-none" title="View Details">
+                  <button class="btn btn-icon btn-light-primary rounded-circle shadow-none">
                     <i antIcon type="eye" theme="outline"></i>
                   </button>
                 </td>

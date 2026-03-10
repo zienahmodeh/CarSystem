@@ -1,18 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { IconService, IconDirective } from '@ant-design/icons-angular';
 import {
-  CloseOutline,
-  DeleteOutline,
-  EditOutline,
-  EyeOutline,
-  PlusOutline,
-  ReloadOutline,
-  SearchOutline,
-  InboxOutline,
-  InfoCircleOutline,
-  DownOutline
+  CloseOutline, DeleteOutline, EditOutline, EyeOutline,
+  PlusOutline, ReloadOutline, SearchOutline, InboxOutline,
+  InfoCircleOutline, DownOutline
 } from '@ant-design/icons-angular/icons';
 
 import { ToastrService } from 'ngx-toastr';
@@ -23,19 +17,23 @@ import { Make, ModelByYear, VehicleFilter, VehicleType } from './vehicles-data.c
 @Component({
   selector: 'app-vehicles-list',
   standalone: true,
-  imports: [SharedModule, CommonModule, FormsModule, IconDirective],
+  imports: [SharedModule, CommonModule, FormsModule, IconDirective, NgSelectModule],
   templateUrl: './vehicles-list.component.html',
   styleUrls: ['./vehicles-list.component.scss'],
   providers: [VehiclesDataService, DecimalPipe],
 })
 export class VehiclesListComponent implements OnInit {
+  isMakesLoading = false;
+  isModelsLoading = false;
+  isSearching = false;
+
   public service = inject(VehiclesDataService);
   private iconService = inject(IconService);
   private toastr = inject(ToastrService);
 
   makes: Make[] = [];
-  types: VehicleType[] = []; 
-  models: ModelByYear[] = []; 
+  types: VehicleType[] = [];
+  models: ModelByYear[] = [];
   years: number[] = [];
 
   filter: VehicleFilter = {
@@ -45,12 +43,10 @@ export class VehiclesListComponent implements OnInit {
     modelId: 0
   };
 
-  isLoading = false;
-
   constructor() {
     this.iconService.addIcon(
-      CloseOutline, DeleteOutline, EditOutline, EyeOutline, 
-      PlusOutline, ReloadOutline, SearchOutline, InboxOutline, 
+      CloseOutline, DeleteOutline, EditOutline, EyeOutline,
+      PlusOutline, ReloadOutline, SearchOutline, InboxOutline,
       InfoCircleOutline, DownOutline
     );
 
@@ -64,8 +60,8 @@ export class VehiclesListComponent implements OnInit {
     this.loadMakes();
   }
 
-
   loadMakes() {
+    this.isMakesLoading = true;
     this.service.getMakes().subscribe({
       next: (res) => {
         if (res.isSuccessfull) {
@@ -73,57 +69,57 @@ export class VehiclesListComponent implements OnInit {
         } else {
           this.toastr.error('Failed to load manufacturers');
         }
+        this.isMakesLoading = false;
       },
-      error: () => this.toastr.error('Server error while loading makes')
+      error: () => {
+        this.isMakesLoading = false;
+        this.toastr.error('Server error while loading makes');
+      }
     });
   }
 
   onMakeChange() {
-    debugger;
-
-    this.filter.vehicleType = '';
     this.filter.modelId = 0;
+    this.filter.vehicleType = '';
     this.types = [];
-    this.models = [];
 
-    if (this.filter.makeId && this.filter.makeId > 0) {
-      this.isLoading = true;
+    if (this.filter.makeId > 0) {
+      this.isModelsLoading = true;
       this.service.getVehicleTypes(this.filter.makeId).subscribe({
         next: (res) => {
-          debugger;
           if (res.isSuccessfull) {
             this.types = res.result;
           }
-          this.isLoading = false;
+          this.isModelsLoading = false;
         },
         error: () => {
-          this.isLoading = false;
-          this.toastr.error('Error fetching models for this manufacturer');
+          this.isModelsLoading = false;
+          this.toastr.error('Error fetching models');
         }
       });
     }
   }
 
   search() {
-    if (!this.filter.makeId || this.filter.makeId === 0) {
-      this.toastr.warning('Please select a Vehicle Make first');
+    if (!this.filter.makeId) {
+      this.toastr.warning('Please select a manufacturer');
       return;
     }
 
-    this.isLoading = true;
+    const selectedType = this.types.find(t => t.model_ID === this.filter.modelId);
+    this.filter.vehicleType = selectedType ? selectedType.model_Name : '';
+
+    this.isSearching = true;
     this.service.getModels(this.filter).subscribe({
       next: (res) => {
         if (res.isSuccessfull) {
           this.models = res.result;
-          if (this.models.length === 0) {
-            this.toastr.info('No results found for these filters');
-          }
         }
-        this.isLoading = false;
+        this.isSearching = false;
       },
       error: () => {
-        this.isLoading = false;
-        this.toastr.error('Error occurred while searching');
+        this.isSearching = false;
+        this.toastr.error('Error fetching search results');
       }
     });
   }
@@ -131,7 +127,7 @@ export class VehiclesListComponent implements OnInit {
   resetFilters() {
     this.filter = {
       makeId: 0,
-      year: this.years[0],
+      year: new Date().getFullYear(),
       vehicleType: '',
       modelId: 0
     };

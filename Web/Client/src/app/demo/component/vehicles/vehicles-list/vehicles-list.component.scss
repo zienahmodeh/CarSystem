@@ -2,96 +2,190 @@
   display: block;
   width: 100%;
   overflow-x: hidden;
-  background-color: #f4f7fa;
+  background-color: #f8fafc;
   min-height: 100vh;
 }
 
-// تنسيق حاوية الـ Select المخصصة
-.select-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
+::ng-deep {
+  .custom-ng-select {
+    .ng-select-container {
+      height: 48px !important;
+      border-radius: 10px !important;
+      border: 1px solid #e2e8f0 !important;
+      background-color: #ffffff !important;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      padding: 0 8px !important;
 
-  .custom-select-styled {
-    appearance: none; // لإخفاء سهم المتصفح الافتراضي في Chrome/Safari
-    -moz-appearance: none; // لإخفاء سهم المتصفح الافتراضي في Firefox
-    padding-right: 2.5rem; // مساحة للسهم المخصص والـ Spinner
-    position: relative;
-    z-index: 1;
-    cursor: pointer;
-    
-    &:disabled {
-      background-color: #f8f9fa;
-      cursor: not-allowed;
+      &:hover {
+        border-color: #cbd5e1 !important;
+      }
+    }
+
+    &.ng-select-opened .ng-select-container {
+      border-color: #3b82f6 !important;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
+    }
+
+    &.ng-select-disabled .ng-select-container {
+      background-color: #f1f5f9 !important;
+      cursor: not-allowed !important;
+    }
+
+    .ng-placeholder {
+      color: #94a3b8 !important;
+      padding-left: 4px !important;
+    }
+
+    .ng-spinner-loader {
+      border-color: #3b82f6 #cbd5e1 #cbd5e1 !important;
+    }
+
+    .ng-arrow-wrapper {
+      bottom: 2px !important;
+      .ng-arrow {
+        border-color: #64748b transparent transparent !important;
+        border-width: 6px 5px 0 !important;
+      }
+    }
+
+    .ng-clear-wrapper {
+      bottom: 2px !important;
+      color: #94a3b8 !important;
+      &:hover { color: #ef4444 !important; }
     }
   }
 
-  .select-arrow {
-    position: absolute;
-    right: 12px;
-    z-index: 2;
-    pointer-events: none; // ضروري جداً لكي تمر النقرة من خلال السهم للـ Select
-    color: #6c757d;
-    display: flex;
-    align-items: center;
-    font-size: 0.8rem;
-  }
+  .ng-dropdown-panel {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+    margin-top: 4px !important;
+    overflow: hidden !important;
 
-  .spinner-container {
-    position: absolute;
-    right: 32px; // يظهر بجانب السهم عند التحميل
-    z-index: 2;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
+    .ng-dropdown-panel-items {
+      .ng-option {
+        padding: 12px 16px !important;
+        font-size: 0.95rem !important;
+        color: #334155 !important;
+
+        &.ng-option-marked {
+          background-color: #f1f5f9 !important;
+        }
+
+        &.ng-option-selected {
+          background-color: #eff6ff !important;
+          color: #3b82f6 !important;
+          font-weight: 600 !important;
+        }
+      }
+    }
   }
 }
 
-// تحسينات الجدول والـ Badges
+.filter-card {
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 16px;
+  
+  .card-body {
+    padding: 2rem;
+  }
+}
+
 .table {
-  th {
-    text-transform: uppercase;
-    font-weight: 700;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  thead th {
+    background-color: #f8fafc;
+    color: #64748b;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
   }
 
-  td {
-    font-size: 0.9rem;
+  tbody td {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    font-size: 0.95rem;
   }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover {
+    background-color: #fbfcfe;
+  }
+}
+
+.btn-primary {
+  height: 48px;
+  background-color: #3b82f6;
+  border: none;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0 1.5rem;
+  transition: all 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.btn-light {
+  height: 48px;
+  border-radius: 10px;
+  font-weight: 500;
 }
 
 .bg-light-primary {
-  background-color: rgba(13, 110, 253, 0.1);
-  color: #0d6efd;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 600;
+  border: 1px solid #dbeafe;
 }
 
-.btn-icon {
-  width: 34px;
-  height: 34px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-}
-
-// تأثير الأنيميشن عند ظهور النتائج
 .fade-in {
-  animation: fadeIn 0.4s ease-in-out;
+  animation: fadeIn 0.4s ease-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-// الحفاظ على الخصائص التي أرسلتِها مع دمجها
-.card {
-  border-radius: 12px;
-  border: none;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+.empty-state {
+  color: #94a3b8;
+  i { font-size: 3rem; }
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s;
+  background-color: #f8fafc;
+  color: #3b82f6;
+  border: 1px solid #e2e8f0;
+
+  &:hover {
+    background-color: #3b82f6;
+    color: #ffffff;
+    transform: scale(1.05);
+  }
 }

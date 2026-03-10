@@ -2,12 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { 
-  ModelByYear, 
-  VehicleFilter, 
-  ServiceOperationResult, 
-  Make, 
-  VehicleType 
+import {
+  ModelByYear,
+  VehicleFilter,
+  ServiceOperationResult,
+  Make,
+  VehicleType
 } from './vehicles';
 
 @Injectable({
@@ -34,22 +34,18 @@ export class VehiclesDataService {
 
 
   getModels(filter: VehicleFilter): Observable<ServiceOperationResult<ModelByYear[]>> {
-    let params = new HttpParams();
+    let params = new HttpParams()
+      .set('makeId', filter.makeId.toString())
+      .set('year', filter.year.toString());
 
-    if (filter.makeId) {
-      params = params.set('makeId', filter.makeId.toString());
-    }
-    
-    if (filter.year) {
-      params = params.set('year', filter.year.toString());
+    if (filter.modelId && filter.modelId > 0) {
+      params = params.set('modelId', filter.modelId.toString());
     }
 
     if (filter.vehicleType) {
       params = params.set('vehicleType', filter.vehicleType);
-    }
-
-    if (filter.modelId) {
-      params = params.set('modelId', filter.modelId.toString());
+    } else {
+      params = params.set('vehicleType', ''); 
     }
 
     return this.http.get<ServiceOperationResult<ModelByYear[]>>(
