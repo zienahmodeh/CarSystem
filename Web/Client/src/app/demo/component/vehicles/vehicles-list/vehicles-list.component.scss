@@ -1,0 +1,97 @@
+:host {
+  display: block;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #f4f7fa;
+  min-height: 100vh;
+}
+
+// تنسيق حاوية الـ Select المخصصة
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .custom-select-styled {
+    appearance: none; // لإخفاء سهم المتصفح الافتراضي في Chrome/Safari
+    -moz-appearance: none; // لإخفاء سهم المتصفح الافتراضي في Firefox
+    padding-right: 2.5rem; // مساحة للسهم المخصص والـ Spinner
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    
+    &:disabled {
+      background-color: #f8f9fa;
+      cursor: not-allowed;
+    }
+  }
+
+  .select-arrow {
+    position: absolute;
+    right: 12px;
+    z-index: 2;
+    pointer-events: none; // ضروري جداً لكي تمر النقرة من خلال السهم للـ Select
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+  }
+
+  .spinner-container {
+    position: absolute;
+    right: 32px; // يظهر بجانب السهم عند التحميل
+    z-index: 2;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+  }
+}
+
+// تحسينات الجدول والـ Badges
+.table {
+  th {
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  td {
+    font-size: 0.9rem;
+  }
+}
+
+.bg-light-primary {
+  background-color: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
+}
+
+.btn-icon {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+// تأثير الأنيميشن عند ظهور النتائج
+.fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// الحفاظ على الخصائص التي أرسلتِها مع دمجها
+.card {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}

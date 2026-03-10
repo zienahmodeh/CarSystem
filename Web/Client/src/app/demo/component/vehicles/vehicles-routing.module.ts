@@ -7,8 +7,8 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'cars-list',
-        loadComponent: () => import('./cars-list/cars-list.component').then((c) => c.CarsListComponent),
+        path: 'vehicles-list',
+        loadComponent: () => import('./vehicles-list/vehicles-list.component').then((c) => c.VehiclesListComponent),
       }
     ]
   }
@@ -18,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class WarehouseRoutingModule {}
+export class VehicleRoutingModule {}

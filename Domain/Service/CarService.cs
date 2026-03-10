@@ -60,7 +60,7 @@ public class CarService(IHttpClientFactory httpClientFactory) : ICarService
             var nhtsaData = await client.GetFromJsonAsync<NhtsaResponse<ModelByYearDTO>>(url);
             response.Result = nhtsaData?.Results ?? new List<ModelByYearDTO>();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             response.IsSuccessfull = false;
             response.ErrorCodes.Add(Errors.GeneralError);

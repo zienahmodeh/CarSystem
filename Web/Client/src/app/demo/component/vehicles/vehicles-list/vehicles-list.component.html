@@ -1,0 +1,136 @@
+<div class="container-fluid p-0 page-wrapper">
+  <div class="page-header bg-primary text-white p-4 mb-4 shadow-sm">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h4 class="m-0 fw-bold text-white">Vehicles Model Search</h4>
+        <nav aria-label="breadcrumb">
+          <ul class="breadcrumb m-0 p-0 f-12 mt-1">
+            <li class="breadcrumb-item"><a class="text-white-50 decoration-none cursor-pointer">Home</a></li>
+            <li class="breadcrumb-item active text-white fw-bold" aria-current="page">Car System</li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="px-4">
+    <div class="card border-0 shadow-sm rounded-3 mb-4 filter-card">
+      <div class="card-body p-4">
+        <div class="row g-4 align-items-end">
+
+          <div class="col-xl-4 col-md-6">
+            <div class="form-group">
+              <label for="makeId" class="form-label fw-bold text-secondary mb-2">
+                <i antIcon type="info-circle" theme="outline" class="me-1"></i> Vehicle Make
+              </label>
+              <div class="select-wrapper">
+                <select id="makeId" name="makeId" class="form-select custom-select-styled" 
+                        [(ngModel)]="filter.makeId" (change)="onMakeChange()">
+                  <option [ngValue]="0" disabled>-- Choose a manufacturer --</option>
+                  <option *ngFor="let m of makes" [ngValue]="m.make_ID">
+                    {{ m.make_Name }}
+                  </option>
+                </select>
+                <div class="select-arrow">
+                  <i antIcon type="down" theme="outline"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-md-6">
+            <div class="form-group">
+              <label for="modelId" class="form-label fw-bold text-secondary mb-2">Model</label>
+              <div class="select-wrapper">
+                <select id="modelId" name="modelId" class="form-select custom-select-styled"
+                        [(ngModel)]="filter.modelId" [disabled]="types.length === 0">
+                  <option [ngValue]="0">-- All Models (Optional) --</option>
+                  <option *ngFor="let t of types" [ngValue]="t.model_ID">
+                    {{ t.model_Name }}
+                  </option>
+                </select>
+
+                <div class="select-arrow" *ngIf="types.length > 0">
+                  <i antIcon type="down" theme="outline"></i>
+                </div>
+
+                <div class="spinner-container" *ngIf="isLoading && filter.makeId > 0">
+                  <div class="spinner-border spinner-border-sm text-primary"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-md-6">
+            <div class="form-group">
+              <label for="year" class="form-label fw-bold text-secondary mb-2">Model Year</label>
+              <div class="select-wrapper">
+                <select id="year" name="year" class="form-select custom-select-styled" [(ngModel)]="filter.year">
+                  <option *ngFor="let y of years" [ngValue]="y">{{ y }}</option>
+                </select>
+                <div class="select-arrow">
+                  <i antIcon type="down" theme="outline"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-light border px-4 rounded-pill" (click)="resetFilters()">
+            <i class="me-1" antIcon type="reload" theme="outline"></i> Reset
+          </button>
+          <button type="button" class="btn btn-primary px-4 rounded-pill shadow-sm" (click)="search()"
+                  [disabled]="!filter.makeId || isLoading">
+            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+            <i class="me-1" antIcon type="search" theme="outline" *ngIf="!isLoading"></i> Search Models
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-4">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="bg-dark text-white">
+              <tr>
+                <th class="ps-4 py-3">MAKE NAME</th>
+                <th class="py-3">MODEL ID</th>
+                <th class="py-3">MODEL NAME</th>
+                <th class="text-center pe-4 py-3">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="models.length === 0">
+                <td colspan="4" class="text-center py-5">
+                  <div *ngIf="!isLoading" class="empty-state">
+                    <i class="f-40 text-muted mb-3 d-block" antIcon type="inbox" theme="outline"></i>
+                    <p class="text-muted m-0">No data found. Select a make and click search.</p>
+                  </div>
+                  <div *ngIf="isLoading" class="py-3">
+                    <div class="spinner-grow text-primary" role="status"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngFor="let model of models" class="fade-in">
+                <td class="ps-4">
+                  <span class="badge rounded-pill bg-light-primary text-primary px-3 py-2 fw-600">
+                    {{ model.make_Name }}
+                  </span>
+                </td>
+                <td><code class="text-muted">{{ model.model_ID }}</code></td>
+                <td class="fw-bold text-dark">{{ model.model_Name }}</td>
+                <td class="text-center pe-4">
+                  <button class="btn btn-icon btn-light-primary rounded-circle shadow-none" title="View Details">
+                    <i antIcon type="eye" theme="outline"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
