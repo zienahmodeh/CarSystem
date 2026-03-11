@@ -17,20 +17,13 @@
     <div class="card border-0 shadow-sm rounded-3 mb-4 filter-card">
       <div class="card-body p-4">
         <div class="row g-4 align-items-end">
-
           <div class="col-xl-4 col-md-6">
             <div class="form-group">
               <label class="form-label fw-bold text-secondary mb-2">
                 <i antIcon type="info-circle" theme="outline" class="me-1"></i> Vehicle Make
               </label>
-              <ng-select 
-                [items]="makes"
-                bindLabel="make_Name"
-                bindValue="make_ID"
-                [(ngModel)]="filter.makeId"
-                (change)="onMakeChange()"
-                [loading]="isMakesLoading"
-                placeholder="Search or select make"
+              <ng-select [items]="makes" bindLabel="make_Name" bindValue="make_ID" [(ngModel)]="filter.makeId"
+                (change)="onMakeChange()" [loading]="isMakesLoading" placeholder="Search or select make"
                 class="custom-ng-select">
               </ng-select>
             </div>
@@ -39,14 +32,8 @@
           <div class="col-xl-4 col-md-6">
             <div class="form-group">
               <label class="form-label fw-bold text-secondary mb-2">Model</label>
-              <ng-select 
-                [items]="types"
-                bindLabel="model_Name"
-                bindValue="model_ID"
-                [(ngModel)]="filter.modelId"
-                [disabled]="types.length === 0"
-                [loading]="isModelsLoading"
-                placeholder="Search or select model"
+              <ng-select [items]="types" bindLabel="model_Name" bindValue="model_ID" [(ngModel)]="filter.modelId"
+                [disabled]="types.length === 0" [loading]="isModelsLoading" placeholder="Search or select model"
                 class="custom-ng-select">
               </ng-select>
             </div>
@@ -55,11 +42,7 @@
           <div class="col-xl-4 col-md-6">
             <div class="form-group">
               <label class="form-label fw-bold text-secondary mb-2">Model Year</label>
-              <ng-select 
-                [items]="years"
-                [(ngModel)]="filter.year"
-                [clearable]="false"
-                placeholder="Select year"
+              <ng-select [items]="years" [(ngModel)]="filter.year" [clearable]="false" placeholder="Select year"
                 class="custom-ng-select">
               </ng-select>
             </div>
@@ -70,11 +53,11 @@
           <button type="button" class="btn btn-light border px-4 rounded-pill" (click)="resetFilters()">
             <i class="me-1" antIcon type="reload" theme="outline"></i> Reset
           </button>
-          
+
           <button type="button" class="btn btn-primary px-4 rounded-pill shadow-sm" (click)="search()"
-                  [disabled]="!filter.makeId || isSearching">
+            [disabled]="!filter.makeId || isSearching">
             <span *ngIf="isSearching" class="spinner-border spinner-border-sm me-2"></span>
-            <i class="me-1" antIcon type="search" theme="outline" *ngIf="!isSearching"></i> 
+            <i class="me-1" antIcon type="search" theme="outline" *ngIf="!isSearching"></i>
             Search Models
           </button>
         </div>
@@ -83,14 +66,14 @@
 
     <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-4">
       <div class="card-body p-0">
-        <div class="table-responsive">
+        <div class="table-scroll-container">
           <table class="table table-hover align-middle mb-0">
-            <thead class="bg-dark text-white">
+            <thead>
               <tr>
+                <th class="ps-4 py-3">MAKE ID</th>
                 <th class="ps-4 py-3">MAKE NAME</th>
                 <th class="py-3">MODEL ID</th>
                 <th class="py-3">MODEL NAME</th>
-                <th class="text-center pe-4 py-3">ACTIONS</th>
               </tr>
             </thead>
             <tbody>
@@ -108,6 +91,7 @@
               </tr>
 
               <tr *ngFor="let model of models" class="fade-in">
+                <td class="ps-4"><code class="text-muted">{{ model.make_ID }}</code></td>
                 <td class="ps-4">
                   <span class="badge rounded-pill bg-light-primary text-primary px-3 py-2 fw-600">
                     {{ model.make_Name }}
@@ -115,11 +99,6 @@
                 </td>
                 <td><code class="text-muted">{{ model.model_ID }}</code></td>
                 <td class="fw-bold text-dark">{{ model.model_Name }}</td>
-                <td class="text-center pe-4">
-                  <button class="btn btn-icon btn-light-primary rounded-circle shadow-none">
-                    <i antIcon type="eye" theme="outline"></i>
-                  </button>
-                </td>
               </tr>
             </tbody>
           </table>

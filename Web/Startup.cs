@@ -2,7 +2,6 @@
 using Domain.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -49,7 +48,7 @@ public class Startup
 
         services.AddSpaStaticFiles(configuration =>
         {
-            configuration.RootPath = "Client/dist"; 
+            configuration.RootPath = "Client/dist";
         });
 
         services.AddScoped<ICarService, CarService>();
@@ -57,14 +56,23 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        app.UseSwagger();
-        app.UseSwaggerUI(c =>
+        if (env.IsDevelopment() || env.IsEnvironment("Local"))
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarSystem API v1");
-            c.RoutePrefix = string.Empty;
-        });
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarSystem API v1");
+                c.RoutePrefix = string.Empty;
+            });
+        }
 
         app.UseStaticFiles();
+        if (!env.IsDevelopment())
+        {
+            app.UseSpaStaticFiles();
+        }
+
         app.UseRouting();
         app.UseCors("CorsPolicy-public");
 
@@ -73,13 +81,16 @@ public class Startup
             endpoints.MapControllers();
         });
 
-        app.UseSpa(spa =>
+        app.MapWhen(x => !x.Request.Path.Value.StartsWith("/swagger") && !x.Request.Path.Value.StartsWith("/api"), builder =>
         {
-            spa.Options.SourcePath = "Client";
-            if (env.IsDevelopment() || env.IsEnvironment("Local"))
+            builder.UseSpa(spa =>
             {
-                spa.UseAngularCliServer(npmScript: "start");
-            }
+                spa.Options.SourcePath = "Client";
+                if (env.IsDevelopment() || env.IsEnvironment("Local"))
+                {
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                }
+            });
         });
     }
 }

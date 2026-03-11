@@ -55,10 +55,18 @@ public class CarService(IHttpClientFactory httpClientFactory) : ICarService
         {
             var client = _httpClientFactory.CreateClient("NhtsaClient");
 
-            var url = $"GetModelsForMakeIdYear/makeId/{filter.MakeId}/modelyear/{filter.Year}/vehicleType/{filter.VehicleType}?format=json";
+            string url = $"GetModelsForMakeIdYear/makeId/{filter.MakeId}/modelyear/{filter.Year}";
+
+            if (!string.IsNullOrEmpty(filter.VehicleType))
+            {
+                url += $"/vehicleType/{filter.VehicleType}";
+            }
+
+            url += "?format=json";
 
             var nhtsaData = await client.GetFromJsonAsync<NhtsaResponse<ModelByYearDTO>>(url);
             response.Result = nhtsaData?.Results ?? new List<ModelByYearDTO>();
+            response.IsSuccessfull = true; 
         }
         catch (Exception ex)
         {

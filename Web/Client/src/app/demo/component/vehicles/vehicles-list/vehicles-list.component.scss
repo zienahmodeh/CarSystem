@@ -6,6 +6,26 @@
   min-height: 100vh;
 }
 
+.table-scroll-container {
+  max-height: 300px; 
+  overflow-y: auto;
+  position: relative;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
+
 ::ng-deep {
   .custom-ng-select {
     .ng-select-container {
@@ -96,8 +116,12 @@
 .table {
   border-collapse: separate;
   border-spacing: 0;
+  width: 100%;
 
   thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
     background-color: #f8fafc;
     color: #64748b;
     font-weight: 600;
