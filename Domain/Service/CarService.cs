@@ -59,14 +59,15 @@ public class CarService(IHttpClientFactory httpClientFactory) : ICarService
 
             if (!string.IsNullOrEmpty(filter.VehicleType))
             {
-                url += $"/vehicleType/{filter.VehicleType}";
+                var encodedType = Uri.EscapeDataString(filter.VehicleType);
+                url += $"/vehicleType/{encodedType}";
             }
 
             url += "?format=json";
 
             var nhtsaData = await client.GetFromJsonAsync<NhtsaResponse<ModelByYearDTO>>(url);
             response.Result = nhtsaData?.Results ?? new List<ModelByYearDTO>();
-            response.IsSuccessfull = true; 
+            response.IsSuccessfull = true;
         }
         catch (Exception ex)
         {

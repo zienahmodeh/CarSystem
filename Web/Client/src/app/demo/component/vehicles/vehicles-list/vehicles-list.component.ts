@@ -89,6 +89,8 @@ export class VehiclesListComponent implements OnInit {
         next: (res) => {
           if (res.isSuccessfull) {
             this.types = res.result;
+          } else {
+            this.toastr.error('Failed to load Vehicle Types');
           }
           this.isModelsLoading = false;
         },
@@ -106,14 +108,19 @@ export class VehiclesListComponent implements OnInit {
       return;
     }
 
-    const selectedType = this.types.find(t => t.model_ID === this.filter.modelId);
-    this.filter.vehicleType = selectedType ? selectedType.model_Name : '';
+    const selectedType = this.types.find(t => t.model_ID === Number(this.filter.modelId));
+    const searchFilter = {
+      ...this.filter,
+      vehicleType: selectedType ? selectedType.model_Name : ''
+    };
 
     this.isSearching = true;
-    this.service.getModels(this.filter).subscribe({
+    this.service.getModels(searchFilter).subscribe({
       next: (res) => {
         if (res.isSuccessfull) {
           this.models = res.result;
+        } else {
+          this.toastr.error('Failed to load search results');
         }
         this.isSearching = false;
       },
