@@ -60,16 +60,4 @@ Client/: Angular 20 Source Code.
 Dockerfile: Container configuration.
 
 ## Git Commands
-To keep your project updated on GitHub:
-
-# Check status
-git status
-
-# Add changes
-git add .
-
-# Commit changes
-git commit -m "updated README"
-
-# Push to your repository
-git push origin main
+project updated on GitHub:
