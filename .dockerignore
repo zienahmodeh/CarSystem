@@ -1,0 +1,9 @@
+**/.git
+**/.gitignore
+**/.vs
+**/bin
+**/obj
+**/npm-debug.log
+**/package-lock.json
+.DS_Store
+Thumbs.db

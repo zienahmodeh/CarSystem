@@ -17,8 +17,7 @@ export class VehiclesDataService {
   private http = inject(HttpClient);
   private toastr = inject(ToastrService);
 
-  private readonly baseUrl = 'http://localhost:61111/api/cars';
-
+private readonly baseUrl = 'cars';
   public models: ModelByYear[] = [];
   public total: number = 0;
 

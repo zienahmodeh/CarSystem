@@ -48,7 +48,7 @@ public class Startup
 
         services.AddSpaStaticFiles(configuration =>
         {
-            configuration.RootPath = "Client/dist";
+            configuration.RootPath = "wwwroot";
         });
 
         services.AddScoped<ICarService, CarService>();
@@ -56,18 +56,20 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        if (env.IsDevelopment() || env.IsEnvironment("Local"))
+        if (env.IsDevelopment() || env.IsEnvironment("Local") || env.IsProduction())
         {
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarSystem API v1");
-                c.RoutePrefix = string.Empty;
+                c.RoutePrefix = "swagger";
             });
         }
 
+        app.UseDefaultFiles();
         app.UseStaticFiles();
+
         if (!env.IsDevelopment())
         {
             app.UseSpaStaticFiles();
@@ -85,10 +87,10 @@ public class Startup
         {
             builder.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "Client";
                 if (env.IsDevelopment() || env.IsEnvironment("Local"))
                 {
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                    spa.Options.SourcePath = "Client";
+                    spa.UseProxyToSpaDevelopmentServer("http://host.docker.internal:4200");
                 }
             });
         });
