@@ -39,8 +39,10 @@ export const environment = {
 Run Angular: 
 cd Web/Client
 npm run start
+http://localhost:4200/
 
 Backend: Run Local
+http://localhost:61111/swagger/index.html
 
 ## Project Structure (Solution)
 Based on the project hierarchy:
@@ -61,3 +63,4 @@ Dockerfile: Container configuration.
 
 ## Git Commands
 project updated on GitHub:
+ https://github.com/zienahmodeh/CarSystem
