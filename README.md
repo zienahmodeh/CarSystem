@@ -1,66 +1,57 @@
 # Car System Project
 
-A full-stack application built with ASP.NET Core 6 and Angular 20. This project allows users to search for car makes and models using  the NHTSA API, all containerized using Docker.
+A full-stack application built with ASP.NET Core 6 and Angular 20.  
+This project allows users to search for car makes and models using the NHTSA API, fully containerized using Docker.
 
+GitHub Repository: [https://github.com/zienahmodeh/CarSystem](https://github.com/zienahmodeh/CarSystem)
 
-## Quick Start (Docker)
+---
 
-If you want to run the entire system in seconds using Docker:
+## 🚀 Quick Start (Docker)
 
-### 1. Prerequisites
+Run the entire system in seconds using Docker.
+
+### Prerequisites
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed.
 
-### 2. Build and Run
-From the root directory where the `Dockerfile` is located, run:
+### Build and Run
+From the root directory (where the `Dockerfile` is located):
 
-# Build the image
+```bash
+# Build the Docker image
 docker build -t carsystem-image .
 
 # Run the container
-docker run -d -p 5000:80 --name car-system-container carsystem-image
-Access the App at: http://localhost:5000
+docker run -d -p 8080:80 --name car-system carsystem-image
 
-# Running Locally (Development)
-If you want to run the project for development without Docker:
+Running Locally (Development)
 
-1. Environment Configuration
-Make sure the BOLink is set correctly in your Angular environment files:
+1. Configure Environment
 
-For Local Development (environment.ts && environment.prod.ts):
+In Angular environment files (environment.ts & environment.prod.ts):
 
-TypeScript
 export const environment = {
   // ... other settings
-  BOLink: 'http://localhost:61111', 
-  // OR use: BOLink: '../..', 
+  BOLink: 'http://localhost:61111',
+  // or use relative path: BOLink: '../..'
 };
 
-2. Execution Steps
-Run Angular: 
+2. Start Frontend
 cd Web/Client
+npm install
 npm run start
-http://localhost:4200/
 
-Backend: Run Local
-http://localhost:61111/swagger/index.html
+Angular Dev Server: http://localhost:4200
 
-## Project Structure (Solution)
-Based on the project hierarchy:
+3. Start Backend (Local)
+Swagger API: http://localhost:61111/swagger/index.html
+
+Project Structure
 
 Domain/: Core business logic and interfaces.
-
 SharedKernel/: Shared utilities and models.
-
-Web/: The main ASP.NET Core API.
-
-Controllers/: API Endpoints (e.g., CarsController.cs).
-
-wwwroot/: Hosted production build of Angular.
-
-Client/: Angular 20 Source Code.
-
+Web/: ASP.NET Core API project.
+Web/Controllers/: API Endpoints.
+Web/wwwroot/: Production build of Angular.
+Web/Client/: Angular 20 source code.
 Dockerfile: Container configuration.
-
-## Git Commands
-project updated on GitHub:
- https://github.com/zienahmodeh/CarSystem

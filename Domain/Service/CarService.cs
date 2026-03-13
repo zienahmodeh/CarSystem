@@ -9,9 +9,14 @@ using System.Net.Http;
 
 namespace Domain.Service;
 
-public class CarService(IHttpClientFactory httpClientFactory) : ICarService
+public class CarService : ICarService
 {
-    private readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public CarService(IHttpClientFactory httpClientFactory)
+    {
+        _httpClientFactory = httpClientFactory;
+    }
 
     public async Task<ServiceOperationResult<List<MakeDTO>>> GetAllMakes()
     {
@@ -21,7 +26,7 @@ public class CarService(IHttpClientFactory httpClientFactory) : ICarService
             var client = _httpClientFactory.CreateClient("NhtsaClient");
             var nhtsaData = await client.GetFromJsonAsync<NhtsaResponse<MakeDTO>>("getallmakes?format=json");
 
-            response.Result = nhtsaData?.Results ?? [];
+            response.Result = nhtsaData?.Results ?? new List<MakeDTO>();
         }
         catch (Exception)
         {
